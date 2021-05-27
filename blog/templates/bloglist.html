@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Post List</h2>
+<br>
+
+{% for post in posts %} 
+<article>
+    <time>Published: {{post.published_date}}</time>
+    <h2><a href="">{{post.title}}</a></h2> 
+</article>
+{% endfor %}
+{% endblock content %}
+

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        {% block title %}
+        Djnago Blog
+        {% endblock title %}
+    </title>
+
+    {% block style %}
+        {% comment %}  {% endcomment %}
+    {% endblock style %}
+        {% comment %}  {% endcomment %}
+
+</head>
+<body>
+    {% comment %} Here is our header {% endcomment %}
+    {% include "header.html" %}
+    {% comment %} End of header {% endcomment %}
+    
+    {% comment %} Start of block content  {% endcomment %}
+    {% block content %}
+        
+    {% endblock content  %}
+    {% comment %} End of block content {% endcomment %}
+
+    {% comment %} Here will be our footer {% endcomment %}
+    {% include "footer.html" %}
+    
+    {% comment %} Start of Java Script {% endcomment %}
+    {% block scripts %}
+        
+    {% endblock scripts %}
+    {% comment %} End of Java Script {% endcomment %}
+
+</body>
+</html>
