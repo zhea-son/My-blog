@@ -11,5 +11,10 @@ def index(request):
 
 def bloglist(request):
     posts = Post.objects.all()
-    return render(request, 'bloglist.html',{'posts':posts})
+    return render(request, 'bloglist.html', {'posts':posts})
+
+def post_detail(request, id):
+
+    post = Post.objects.get(id=id)
+    return render(request, 'post_detail.html', {'post': post})
     
