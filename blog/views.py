@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Post
+from .models import Post, User
 from django.views import View
 from django.contrib.auth.forms import UserCreationForm
-from .forms import Loginform
+from .forms import Loginform, Signupform
 from django.contrib.auth import authenticate, login
 
 
@@ -41,9 +41,32 @@ class Login(View):
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
+            
             user = authenticate(username=username,password=password)
             login(request, user)
             return redirect('index')
         
 
         return render(request, self.template_name, {'form':form, 'active':self.active})
+
+
+class signup(View):
+    template_name = 'signup.html'
+    form_class = Signupform
+    active = "signup"
+
+    def get(self,  request, *args, **kwargs):
+        return render(request, self.template_name , {'active':self.active})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            email = form.cleaned_data.get('email')
+            password = form.cleaned_data.get('password')
+            user = User.objects.create_user(username=username, email=email, password=password)
+            authenticate(username=username, password=password)
+            login(request, user)
+            return redirect('index')
+
+        return render(request, self.template_name, {'active':active, 'form':form})
