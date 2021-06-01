@@ -13,7 +13,17 @@
 <br>
 {% for post in posts %}
 <article>
-    <h2><a href="{% url 'post_detail' post.id %}">{{ post.title }} - {{ post.published_date }}</a></h2>
+    <div>
+        <h2><a href="{% url 'post_detail' post.id %}">{{ post.title }} -- {{post.author.username}}</a></h2>
+        <p>{{ post.published_date }}</p> 
+        
+        {% if request.user.id == post.author.id %}
+        <a href="{% url 'deleteblog' post.id %}">Delete</a><br>
+        <a href="#">Edit</a>
+        {% endif %}
+
+    </div>
+    
 </article>
 {% endfor %}
 <!--  -->

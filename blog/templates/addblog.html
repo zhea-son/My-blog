@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="container">
+        <div class="row">
+            
+                <form class="signup-form" method="post" enctype="multipart/form-data">
+                    <h1>Add Block</h1>
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div class="mb-3">
+                        <label for="exampleTitle" class="form-label">Title</label>
+                        <input name="title" type="text" class="form-control" id="exampleInputTitle">
+                        
+                    </div>
+                    <div class="col-12">
+                        <label for="exampleContent" class="form-label">Content</label>
+                        <input name="text" type="text" class="form-control" id="exampleInputContent">
+                    </div>
+                    <br>
+                    <div class="mb-3">
+                        <label for="exampleImage" class="form-label">Image</label>
+                        <input name="image" type="file" id="exampleInputImage">
+                        
+                    </div>
+                    
+                    <button class="btn btn-primary" type="submit">Add</button>
+                </form>
+                
+            
+        </div>
+    </div>
+</main>
+
+{% endblock content %}
+

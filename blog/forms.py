@@ -1,3 +1,4 @@
+from blog.models import Post
 from django import forms
 from django.core.exceptions import ValidationError
 
@@ -20,4 +21,12 @@ class Signupform(forms.Form):
         if password != password1:
             raise ValidationError('Password doesnot match!')
     
-        
+class AddBlogform(forms.ModelForm):
+
+    class Meta:
+        model = Post
+        fields = ('title','text','image')
+
+
+   
+

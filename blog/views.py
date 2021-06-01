@@ -1,9 +1,10 @@
+from django.contrib.auth import forms
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Post, User
 from django.views import View
 from django.contrib.auth.forms import UserCreationForm
-from .forms import Loginform, Signupform
+from .forms import Loginform, Signupform, AddBlogform
 from django.contrib.auth import authenticate, login
 
 
@@ -70,3 +71,36 @@ class signup(View):
             return redirect('index')
 
         return render(request, self.template_name, {'active':active, 'form':form})
+
+
+class addblog(View):
+    template_name = 'addblog.html'
+    form_class = AddBlogform
+    active = "addblog"
+
+    def get(self, request, *args, **kwargs):
+        
+        return render(request, self.template_name, {'active':self.active })
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST, request.FILES)
+        if form.is_valid():
+            user = request.user
+            post = form.save(commit=False)
+            post.author = user
+            post.save()
+            return redirect('bloglist')
+        return render(request, self.template_name, {'active':self.active, 'form':form})
+    
+def deleteblog(request, id):
+    post = Post.objects.get(id=id)
+    post.delete()
+    return redirect('bloglist')
+
+
+
+        
+
+
+
+
