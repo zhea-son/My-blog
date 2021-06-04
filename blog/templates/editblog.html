@@ -13,22 +13,22 @@
                 <form class="signup-form" method="post" enctype="multipart/form-data">
                     <h1>Add Block</h1>
                     {% csrf_token %}
-                    
-                     <div class="mb-3">
+                    {{ form.as_p }}
+                    <div class="mb-3">
                         <label for="exampleTitle" class="form-label">Title</label>
-                        <input name="title" type="text" class="form-control" id="exampleInputTitle">
+                        <input name="title" type="text" class="form-control" id="exampleInputTitle" value="{{ post.title }}">
                         
                     </div>
                     <div class="col-12">
                         <label for="exampleContent" class="form-label">Content</label>
-                        <input name="text" type="text" class="form-control" id="exampleInputContent">
+                        <input name="text" type="text" class="form-control" id="exampleInputContent" value="{{ post.text }}"> 
                     </div>
                     <br>
                     <div class="mb-3">
                         <label for="exampleImage" class="form-label">Image</label>
-                        <input name="image" type="file" id="exampleInputImage">
+                        <input name="image" type="file" id="exampleInputImage" value="{{ post.image }}">
                         
-                    </div> 
+                    </div>
                     
                     <button class="btn btn-primary" type="submit">Add</button>
                 </form>
@@ -40,3 +40,4 @@
 
 {% endblock content %}
 
+ 

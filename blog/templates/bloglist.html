@@ -11,16 +11,36 @@
 <!--  -->
 <h2>Post Lists</h2>
 <br>
+<form method="POST">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <input type="search" class="form-control" id="form1" name="search_str">
+        </div>
+        <div class="col-md-4">
+            <button type="button" class="btn btn-primary">Search</button>
+        </div>
+    </div>
+</form>
+<br>
 {% for post in posts %}
 <article>
     <div>
-        <h2><a href="{% url 'post_detail' post.id %}">{{ post.title }} -- {{post.author.username}}</a></h2>
-        <p>{{ post.published_date }}</p> 
+        <h2>
+            <a href="{% url 'post_detail' post.id %}">{{ post.title }} -- {{post.author.username}}</a>
+        </h2>
+
+        <p>
+            {{ post.published_date }}<br><br>
+            {% if request.user.id == post.author.id %}
+            <a href="{% url 'deleteblog' post.id %}">Delete</a>
+            <a href="{% url 'editblog' post.id %}">Edit</a>
+            <br><br>
+            {% endif %}
+        </p> 
         
-        {% if request.user.id == post.author.id %}
-        <a href="{% url 'deleteblog' post.id %}">Delete</a><br>
-        <a href="#">Edit</a>
-        {% endif %}
+        
 
     </div>
     

@@ -15,10 +15,20 @@ def index(request):
     active = 'home'
     return render(request, 'index.html', {'posts': posts, 'active':active})
 
-def bloglist(request):
-    posts = Post.objects.all()
+class BlogList(View):
+    
     active = 'list'
-    return render(request, 'bloglist.html', {'posts':posts, 'active':active})
+    template_name = 'bloglist.html'
+
+    def get(self, request, *args, **kwargs):
+        posts = Post.objects.all() 
+        return render(request, self.template_name, {'posts':posts, 'active':self.active})
+
+    def post(self, request, *args, **kwargs):
+        search_str = request.POST.get("search_str")
+        posts = Post.objects.filter(title__icontains=search_str)
+        return render(request, self.template_name, {'posts':posts, 'active':self.active})
+
 
 def post_detail(request, id):
 
@@ -51,7 +61,7 @@ class Login(View):
         return render(request, self.template_name, {'form':form, 'active':self.active})
 
 
-class signup(View):
+class Signup(View):
     template_name = 'signup.html'
     form_class = Signupform
     active = "signup"
@@ -73,14 +83,14 @@ class signup(View):
         return render(request, self.template_name, {'active':active, 'form':form})
 
 
-class addblog(View):
+class AddBlog(View):
     template_name = 'addblog.html'
     form_class = AddBlogform
     active = "addblog"
 
     def get(self, request, *args, **kwargs):
-        
-        return render(request, self.template_name, {'active':self.active })
+        form = self.form_class()
+        return render(request, self.template_name, {'active':self.active, 'form':form })
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST, request.FILES)
@@ -98,7 +108,29 @@ def deleteblog(request, id):
     return redirect('bloglist')
 
 
+class EditBlog(View):
+    template_name = 'editblog.html'
+    form_class = AddBlogform
+    
 
+    def get(self, request, id, *args, **kwargs):
+        post = Post.objects.get(id=id)
+        return render(request, self.template_name, {'active':'list', 'post':post})
+
+    def post(self, request, id, *args, **kwargs):
+        post = Post.objects.get(id=id)
+        form = self.form_class(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('bloglist')
+        return render(request, self.template_name, {'form':form})
+
+
+# def editblog(request, id):
+
+#     post = Post.objects.get(id=id)
+    
+#     return render(request, 'editblog.html', {'post': post})
         
 
 
