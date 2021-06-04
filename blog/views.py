@@ -11,7 +11,7 @@ from django.contrib.auth import authenticate, login
 # Create your views here.
 
 def index(request):
-    posts = Post.objects.all().order_by('-id')[:3]
+    posts = Post.objects.filter(is_active=True).order_by('-id')[:3]
     active = 'home'
     return render(request, 'index.html', {'posts': posts, 'active':active})
 
@@ -21,12 +21,12 @@ class BlogList(View):
     template_name = 'bloglist.html'
 
     def get(self, request, *args, **kwargs):
-        posts = Post.objects.all() 
+        posts = Post.objects.filter(is_active=True) 
         return render(request, self.template_name, {'posts':posts, 'active':self.active})
 
     def post(self, request, *args, **kwargs):
         search_str = request.POST.get("search_str")
-        posts = Post.objects.filter(title__icontains=search_str)
+        posts = Post.objects.filter(title__icontains=search_str, is_active=True)
         return render(request, self.template_name, {'posts':posts, 'active':self.active})
 
 

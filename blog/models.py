@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.db.models.fields import BooleanField
 from django.utils import timezone
 from django.contrib.auth.models import User
 
@@ -12,7 +13,7 @@ class Post(models.Model):
     image = models.ImageField(("Image"), upload_to="post/images/", null=True, blank=True)
     created_date = models.DateTimeField(("Created Date"), auto_now_add=True)
     published_date =models.DateTimeField(("Published Date"), auto_now=True)
-    
+    is_active = models.BooleanField(("Is_Active"), default=False)
 
     def __str__(self):
         return "{}".format(self.title)
